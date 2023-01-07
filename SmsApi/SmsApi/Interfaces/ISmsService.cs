@@ -1,4 +1,5 @@
-﻿using SmssApi.Responses;
+﻿using SmssApi.Requests;
+using SmssApi.Responses;
 
 namespace SmssApi.Interfaces
 {
@@ -6,8 +7,8 @@ namespace SmssApi.Interfaces
     {
 		Task<GetSmsResponse> GetSmss(int userId);
 
-		Task<SaveSmsResponse> SaveSms(Sms Sms);
+		Task<SaveSmsResponse> SaveSms(SmsMessage sms);
 
-		Task<DeleteSmsResponse> DeleteSms(int SmsId, int userId);
+		Task<DeleteSmsResponse> DeleteSms(int smsId, int userId);
     }
 }

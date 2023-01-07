@@ -72,35 +72,17 @@ namespace SmssApi
 
 			modelBuilder.Entity<SmsMessage>(entity =>
 			{
-
-				//entity.Property(e => e.Name)
-				//	.IsRequired()
-				//	.HasMaxLength(100);
-
-				//entity.Property(e => e.Ts)
-				//	.HasColumnType("smalldatetime")
-				//	.HasColumnName("TS");
-
 				entity.HasOne(d => d.User)
 					.WithMany(p => p.SmsMessages)
 					.HasForeignKey(d => d.UserId)
 					.OnDelete(DeleteBehavior.ClientSetNull)
-					.HasConstraintName("FK_Sms_User");
+					.HasConstraintName("FK_SmsMessage_User");
 
 				entity.ToTable("SmsMessage");
 			});
 
 			modelBuilder.Entity<SmsStatus>(entity =>
 			{
-
-				//entity.Property(e => e.Name)
-				//	.IsRequired()
-				//	.HasMaxLength(100);
-
-				//entity.Property(e => e.Ts)
-				//	.HasColumnType("smalldatetime")
-				//	.HasColumnName("TS");
-
 				entity.HasOne(d => d.SmsMessage)
 					.WithMany(p => p.SmsStatuses)
 					.HasForeignKey(d => d.SmsId)

@@ -2,12 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmssApi
 {
     public partial class SmsMessage
     {
-        public Guid Id { get; set; }
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public Guid Id { get; set; }
         public int UserId { get; set; }
         public string From { get; set; }
 		public string Content { get; set; }

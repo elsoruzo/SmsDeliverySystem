@@ -2,6 +2,6 @@
 {
     public class GetSmsResponse : BaseResponse
     {
-        public List<Sms> Smss { get; set; }
+        public List<SmsMessage> Smss { get; set; }
     }
 }

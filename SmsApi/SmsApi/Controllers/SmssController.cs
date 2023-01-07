@@ -28,26 +28,28 @@ namespace SmssApi.Controllers
                 return UnprocessableEntity(getSmssResponse);
             }
             
-            var SmssResponse = getSmssResponse.Smss.ConvertAll(o => new SmsResponse { Id = o.Id, IsCompleted = o.IsCompleted, Name = o.Name, Ts = o.Ts });
+            var smssResponse = getSmssResponse.Smss.ConvertAll(o => new SmsMessageResponse { Id = o.Id, UserId = o.UserId, From = o.From, Content = o.Content, SmsStatuses = o.SmsStatuses });
 
-            return Ok(SmssResponse);
+            return Ok(smssResponse);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(SmsRequest SmsRequest)
+        public async Task<IActionResult> Post(SmsMessageRequest smsRequest)
         {
-            var Sms = new Sms { IsCompleted = SmsRequest.IsCompleted, Ts = SmsRequest.Ts, Name = SmsRequest.Name, UserId = UserID };
+            var sms = new SmsMessage { 
+                //Id = smsRequest.Id, 
+                From = smsRequest.From, UserId = UserID };
 
-            var saveSmsResponse = await SmsService.SaveSms(Sms);
+            var saveSmsResponse = await SmsService.SaveSms(sms);
 
             if (!saveSmsResponse.Success)
             {
                 return UnprocessableEntity(saveSmsResponse);
             }
 
-            var SmsResponse = new SmsResponse { Id = saveSmsResponse.Sms.Id, IsCompleted = saveSmsResponse.Sms.IsCompleted, Name = saveSmsResponse.Sms.Name, Ts = saveSmsResponse.Sms.Ts };
+            var smsResponse = new SmsMessageResponse { Id = saveSmsResponse.Sms.Id, UserId = saveSmsResponse.Sms.UserId, From = saveSmsResponse.Sms.From, Content = saveSmsResponse.Sms.Content, SmsStatuses = saveSmsResponse.Sms.SmsStatuses };
             
-            return Ok(SmsResponse);
+            return Ok(smsResponse);
         }
 
         [HttpDelete("{id}")]
@@ -67,18 +69,18 @@ namespace SmssApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(SmsRequest SmsRequest)
+        public async Task<IActionResult> Put(SmsMessageRequest smsRequest)
         {
-            var Sms = new Sms { Id = SmsRequest.Id, IsCompleted = SmsRequest.IsCompleted, Ts = SmsRequest.Ts, Name = SmsRequest.Name, UserId = UserID };
+            var sms = new SmsMessage { Id = smsRequest.Id, From = smsRequest.From, Content = smsRequest.Content, UserId = UserID };
 
-            var saveSmsResponse = await SmsService.SaveSms(Sms);
+            var saveSmsResponse = await SmsService.SaveSms(sms);
 
             if (!saveSmsResponse.Success)
             {
                 return UnprocessableEntity(saveSmsResponse);
             }
 
-            var SmsResponse = new SmsResponse { Id = saveSmsResponse.Sms.Id, IsCompleted = saveSmsResponse.Sms.IsCompleted, Name = saveSmsResponse.Sms.Name, Ts = saveSmsResponse.Sms.Ts };
+            var SmsResponse = new SmsMessageResponse { Id = saveSmsResponse.Sms.Id, UserId = saveSmsResponse.Sms.UserId, From = saveSmsResponse.Sms.From, Content = saveSmsResponse.Sms.Content, SmsStatuses = saveSmsResponse.Sms.SmsStatuses };
 
             return Ok(SmsResponse);
         }
